@@ -1,8 +1,7 @@
 var express = require('express');
-var authRouter = express.Router();
-var firebase = require('firebase');
+var authService = require('../services/auth.service');
 
-var firebaseApp = firebase.initializeApp();
+var authRouter = express.Router();
 
 authRouter.get('/', function (req, res) {
   res.json({ 'message': 'Welcome to the auth section' });
@@ -13,11 +12,11 @@ authRouter.post('/signup', function (req, res) {
   if (!email || !password)
     res.json({ error: 'Email and password cannot be null or empty' });
   else
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(function (data) {
+    authService.signUp(email, password).then(function (data) {
       res.json({ data });
     }, function (error) {
-      res.json({ error })
-    })
+      res.json({ error });
+    });
 });
 
 authRouter.post('/login', function (req, res) {
@@ -25,7 +24,7 @@ authRouter.post('/login', function (req, res) {
   if (!email || !password)
     res.json({ error: 'Email and password cannot be null or empty' });
   else
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function (data) {
+    authService.login(email, password).then(function (data) {
       res.json({ data });
     }, function (error) {
       res.json({ error })

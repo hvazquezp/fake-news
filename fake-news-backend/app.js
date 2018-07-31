@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var firebase = require('firebase');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var imageRouter = require('./routes/image');
